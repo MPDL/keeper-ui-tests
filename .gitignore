@@ -1,0 +1,11 @@
+
+
+.settings/
+keeper-ui-tests/
+target/
+
+.classpath
+.project
+
+*.class
+*.tmp
