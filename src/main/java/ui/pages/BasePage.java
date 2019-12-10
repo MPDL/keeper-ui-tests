@@ -8,6 +8,9 @@ package ui.pages;
  */
 public abstract class BasePage {
 
+	// TODO Set the URL of the KEEPER instance which should be tested
+	public static final String KEEPER_URL = "";
+
 	// TODO: Add shared functionalities.
 
 }
