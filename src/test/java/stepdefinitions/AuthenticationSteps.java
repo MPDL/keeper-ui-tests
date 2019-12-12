@@ -3,9 +3,9 @@ package stepdefinitions;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Lazy;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -26,6 +26,10 @@ public class AuthenticationSteps {
 	@Autowired
 	WebDriver driver;
 
+	@Lazy
+	@Autowired
+	LoginPage loginPage;
+
 	@Given("Open LoginPage")
 	public void navigateToLoginPage() {
 		driver.navigate().to(BasePage.KEEPER_URL);
@@ -33,7 +37,6 @@ public class AuthenticationSteps {
 
 	@When("Login with empty credentials")
 	public void loginWithEmptyCredentials() {
-		LoginPage loginPage = PageFactory.initElements(driver, LoginPage.class);
 		loginPage.login("", "");
 	}
 

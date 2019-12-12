@@ -1,8 +1,14 @@
 package ui.pages;
 
+import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
 /**
  * Page Object encapsulates the Login page.
@@ -10,6 +16,9 @@ import org.openqa.selenium.support.FindBy;
  * @author helk
  *
  */
+@Lazy
+@Component
+@Scope(SCOPE_CUCUMBER_GLUE)
 public class LoginPage extends BasePage {
 
 	@FindBy(name = "login")
@@ -21,10 +30,13 @@ public class LoginPage extends BasePage {
 	@FindBy(className = "submit")
 	private WebElement loginButton;
 
-	private WebDriver driver;
+	@Lazy
+	@Autowired
+	HomePage homePage;
 
+	@Autowired
 	public LoginPage(WebDriver driver) {
-		this.driver = driver;
+		super(driver);
 	}
 
 	public HomePage login(String email, String password) {
@@ -33,7 +45,7 @@ public class LoginPage extends BasePage {
 
 		this.loginButton.click();
 
-		return new HomePage(this.driver);
+		return homePage;
 	}
 
 }

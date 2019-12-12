@@ -6,3 +6,6 @@ Feature: First feature to test
     When Go to Keeper start page
     Then MPDL flag tag exists
     And Info text heading is visible
+    When Login with empty credentials
+    Then LoginPage stays open
+    
