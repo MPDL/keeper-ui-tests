@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
 import ui.pages.MarkdownViewer;
 
 /**
@@ -44,6 +45,18 @@ public class FileSteps {
 		assertThat(outline).contains("Title", "Author", "Description", "Year", "Institute", "DOI");
 
 		assertThat(buttonsPresent).isTrue();
+	}
+
+	@Then("Edited archive metadata is displayed correctly")
+	public void editedArchiveMetadataDisplayedCorrectly() {
+		List<String> content = markdownViewer.getOutlineContent();
+
+		assertThat(content).contains("New Title", "New Author", "New Description", "New Year");
+	}
+
+	@When("Fill out archive metadata")
+	public void fillOutArchiveMetadata() {
+		markdownViewer.editFile("New Title", "New Author", "New Description", "New Year", "", "");
 	}
 
 }

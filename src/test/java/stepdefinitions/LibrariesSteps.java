@@ -87,7 +87,7 @@ public class LibrariesSteps {
 		libraryPage.openMarkdownElement("archive-metadata.md");
 	}
 
-	@After("@createNewLibrary or @openArchiveMetadata")
+	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata")
 	public void deleteLibrary() {
 		homePage.navigateTo();
 		homePage.openMyLibraries();
