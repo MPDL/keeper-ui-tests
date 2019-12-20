@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
 import io.cucumber.java.After;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import ui.pages.HomePage;
+import ui.pages.LibraryPage;
 
 /**
  * Tests steps: Libraries domain
@@ -28,6 +30,11 @@ public class LibrariesSteps {
 	@Autowired
 	HomePage homePage;
 
+	@Lazy
+	@Autowired
+	LibraryPage libraryPage;
+
+	// TODO: move newLibraryName as variable to the feature file
 	private String newLibraryName;
 
 	@When("Create new Library")
@@ -61,8 +68,28 @@ public class LibrariesSteps {
 		assertThat(defaultElementsContained).isTrue();
 	}
 
-	@After("@createNewLibrary")
+	@Given("Open new Library")
+	public void openNewLibrary() {
+		// FIXME: Replace sleep with a appropriate wait
+		// Wait implicitly until Cared-Data-Certificate gets added to the new library
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Handle exception
+			e.printStackTrace();
+		}
+
+		homePage.openLibrary(newLibraryName);
+	}
+
+	@Given("Open archive metadata")
+	public void openArchiveMetadata() {
+		libraryPage.openMarkdownElement("archive-metadata.md");
+	}
+
+	@After("@createNewLibrary or @openArchiveMetadata")
 	public void deleteLibrary() {
+		homePage.navigateTo();
 		homePage.openMyLibraries();
 		homePage.deleteLibrary(newLibraryName);
 	}

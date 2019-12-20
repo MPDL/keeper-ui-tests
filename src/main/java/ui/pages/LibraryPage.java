@@ -2,12 +2,15 @@ package ui.pages;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
@@ -42,6 +45,21 @@ public class LibraryPage extends BasePage {
 		}
 
 		return true;
+	}
+
+	public void openMarkdownElement(String elementName) {
+		WebElement element = this.directoryViewDiv.findElement(By.linkText(elementName));
+		element.click();
+
+		// TODO: Rework window handling
+		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+
+		wait.until(ExpectedConditions.titleContains(elementName));
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("editButton")));
+		wait.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState")
+				.equals("complete"));
 	}
 
 }

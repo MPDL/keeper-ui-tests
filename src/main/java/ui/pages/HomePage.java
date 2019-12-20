@@ -134,4 +134,14 @@ public class HomePage extends BasePage {
 		return homePage;
 	}
 
+	public HomePage navigateTo() {
+		driver.navigate().to(BasePage.KEEPER_URL);
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-libs-more-op")));
+		wait.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState")
+				.equals("complete"));
+
+		return homePage;
+	}
+
 }
