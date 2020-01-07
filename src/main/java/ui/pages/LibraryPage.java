@@ -62,4 +62,37 @@ public class LibraryPage extends BasePage {
 				.equals("complete"));
 	}
 
+	public void lockElement(String elementName) {
+		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
+		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
+
+		WebElement moreOptions = elementRow.findElement(By.className("more-op-icon"));
+		moreOptions.click();
+		WebElement lockFile = elementRow.findElement(By.className("lock-file"));
+		lockFile.click();
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("file-locked-icon")));
+	}
+
+	public void unlockElement(String elementName) {
+		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
+		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
+
+		WebElement moreOptions = elementRow.findElement(By.className("more-op-icon"));
+		// Selenium has problems hover/scroll element when clicking => Use JS to click
+		((JavascriptExecutor) driver).executeScript("arguments[0].click();", moreOptions);
+		WebElement unlockFile = elementRow.findElement(By.className("unlock-file"));
+		unlockFile.click();
+
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("file-locked-icon")));
+	}
+
+	public boolean lockedIconVisible(String elementName) {
+		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
+		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
+
+		List<WebElement> lockIcon = elementRow.findElements(By.className("file-locked-icon"));
+		return !lockIcon.isEmpty();
+	}
+
 }

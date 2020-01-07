@@ -87,7 +87,27 @@ public class LibrariesSteps {
 		libraryPage.openMarkdownElement("archive-metadata.md");
 	}
 
-	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata")
+	@When("Lock archive metadata file")
+	public void lockArchiveMetadataFile() {
+		libraryPage.lockElement("archive-metadata.md");
+	}
+
+	@Then("Archive metadata lock symbole is displayed")
+	public void archiveMetadataLockSymboleIsDisplayed() {
+		assertThat(libraryPage.lockedIconVisible("archive-metadata.md")).isTrue();
+	}
+
+	@When("Unlock archive metadata file")
+	public void unlockArchiveMetadataFile() {
+		libraryPage.unlockElement("archive-metadata.md");
+	}
+
+	@Then("Archive metadata lock symbole is not displayed")
+	public void archiveMetadataLockSymboleIsNotDisplayed() {
+		assertThat(libraryPage.lockedIconVisible("archive-metadata.md")).isFalse();
+	}
+
+	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata")
 	public void deleteLibrary() {
 		homePage.navigateTo();
 		homePage.openMyLibraries();
