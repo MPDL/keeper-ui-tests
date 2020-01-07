@@ -2,6 +2,8 @@ package ui.pages;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
+import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class LibraryPage extends BasePage {
 
 	@FindBy(id = "dir-view")
 	private WebElement directoryViewDiv;
+
+	@FindBy(id = "advanced-upload")
+	private WebElement uploadButton;
 
 	@Autowired
 	public LibraryPage(WebDriver driver) {
@@ -93,6 +98,29 @@ public class LibraryPage extends BasePage {
 
 		List<WebElement> lockIcon = elementRow.findElements(By.className("file-locked-icon"));
 		return !lockIcon.isEmpty();
+	}
+
+	public void uploadFile(String fileName) {
+		// Check upload buttons are clickable:
+		this.uploadButton.click();
+		WebElement uploadFilesButton = driver.findElement(By.className("advanced-upload-file"));
+		wait.until(ExpectedConditions.elementToBeClickable(uploadFilesButton));
+		// Click on 'Upload' again to hide the field again
+		this.uploadButton.click();
+
+		// Upload done using the upload input element:
+		WebElement uploadInputElement = driver.findElement(By.id("advanced-upload-file-input"));
+		((JavascriptExecutor) driver).executeScript("arguments[0].style.visibility = 'visible';", uploadInputElement);
+
+		// TODO: Move the extraction of the filepath to another class/method
+		URL fileUrl = this.getClass().getClassLoader().getResource("files/" + fileName);
+		String filePath = fileUrl.getPath();
+		File systemIndependentFile = new File(filePath);
+		String systemIndependentFilePath = systemIndependentFile.getPath();
+
+		uploadInputElement.sendKeys(systemIndependentFilePath);
+
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(fileName)));
 	}
 
 }

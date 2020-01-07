@@ -107,7 +107,19 @@ public class LibrariesSteps {
 		assertThat(libraryPage.lockedIconVisible("archive-metadata.md")).isFalse();
 	}
 
-	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata")
+	@When("Upload file to Library")
+	public void uploadFileToLibrary() {
+		libraryPage.uploadFile("Test.txt");
+	}
+
+	@Then("Library contains file")
+	public void libraryContainsFile() {
+		boolean elementContained = libraryPage.containsElements("Test.txt");
+
+		assertThat(elementContained).isTrue();
+	}
+
+	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @uploadFile")
 	public void deleteLibrary() {
 		homePage.navigateTo();
 		homePage.openMyLibraries();
