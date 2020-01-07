@@ -1,7 +1,7 @@
 Feature: Upload file
   Logged in user can upload a file to a library.
   
-  @KP-17
+  @KP-29
   @uploadFile
   Scenario: Upload file
     Given Logged in as User

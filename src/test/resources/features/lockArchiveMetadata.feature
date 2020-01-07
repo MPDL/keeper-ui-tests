@@ -1,7 +1,7 @@
 Feature: Lock Archive Metadata
   Logged in user can lock the Archive Metadata file of a library.
   
-  @KP-19
+  @KP-21
   @LockArchiveMetadata
   Scenario: Lock archive metadata
     Given Logged in as User

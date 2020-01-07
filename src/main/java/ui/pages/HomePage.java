@@ -2,6 +2,7 @@ package ui.pages;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -40,6 +41,9 @@ public class HomePage extends BasePage {
 
 	@FindBy(id = "side-nav")
 	private WebElement sideNavigationDiv;
+
+	@FindBy(linkText = "Project Catalog")
+	private WebElement projectCatalogElement;
 
 	@Lazy
 	@Autowired
@@ -132,6 +136,17 @@ public class HomePage extends BasePage {
 		// FIXME: How to wait correctly for "My Libraries" to finish loading?
 
 		return homePage;
+	}
+
+	public void openProjectCatalog() {
+		this.projectCatalogElement.click();
+
+		// TODO: Rework window handling
+		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
+		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(1));
+
+		wait.until(ExpectedConditions.titleContains("Catalog"));
 	}
 
 	public HomePage navigateTo() {
