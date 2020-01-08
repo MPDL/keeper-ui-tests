@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Scope;
  *
  */
 @Configuration
-@ComponentScan("ui.pages")
+@ComponentScan({ "ui.pages", "ui.components" })
 public class TestConfiguration {
 
 	@Bean(destroyMethod = "quit")

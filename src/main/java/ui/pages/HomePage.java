@@ -2,7 +2,6 @@ package ui.pages;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -41,9 +40,6 @@ public class HomePage extends BasePage {
 
 	@FindBy(id = "side-nav")
 	private WebElement sideNavigationDiv;
-
-	@FindBy(linkText = "Project Catalog")
-	private WebElement projectCatalogElement;
 
 	@Lazy
 	@Autowired
@@ -138,15 +134,11 @@ public class HomePage extends BasePage {
 		return homePage;
 	}
 
-	public void openProjectCatalog() {
-		this.projectCatalogElement.click();
+	public boolean aboutDialogIsOpened() {
+		WebElement dialog = driver.findElement(By.id("simplemodal-container"));
+		List<WebElement> seafileLogo = dialog.findElements(By.xpath(".//img[@title='Seafile']"));
 
-		// TODO: Rework window handling
-		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
-
-		wait.until(ExpectedConditions.titleContains("Catalog"));
+		return !seafileLogo.isEmpty();
 	}
 
 	public HomePage navigateTo() {

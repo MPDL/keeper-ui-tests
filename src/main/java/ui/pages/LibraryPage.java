@@ -4,7 +4,6 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -17,6 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
+
+import ui.util.SeleniumUtil;
 
 /**
  * Page Object encapsulates the Library page (showing the content of a single
@@ -55,11 +56,7 @@ public class LibraryPage extends BasePage {
 	public void openMarkdownElement(String elementName) {
 		WebElement element = this.directoryViewDiv.findElement(By.linkText(elementName));
 		element.click();
-
-		// TODO: Rework window handling
-		wait.until(ExpectedConditions.numberOfWindowsToBe(2));
-		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
-		driver.switchTo().window(tabs.get(1));
+		SeleniumUtil.switchToSecondTab(driver, wait);
 
 		wait.until(ExpectedConditions.titleContains(elementName));
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("editButton")));
