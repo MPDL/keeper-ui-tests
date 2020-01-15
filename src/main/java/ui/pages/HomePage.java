@@ -3,6 +3,7 @@ package ui.pages;
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.util.List;
+import java.util.Properties;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -11,6 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -40,6 +42,10 @@ public class HomePage extends BasePage {
 
 	@FindBy(id = "side-nav")
 	private WebElement sideNavigationDiv;
+
+	@Autowired
+	@Qualifier("loadTestDataProperties")
+	Properties testDataProperties;
 
 	@Lazy
 	@Autowired
@@ -142,7 +148,8 @@ public class HomePage extends BasePage {
 	}
 
 	public HomePage navigateTo() {
-		driver.navigate().to(BasePage.KEEPER_URL);
+		// TODO: Rework centralized access to the Keeper URLs
+		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-libs-more-op")));
 		wait.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState")

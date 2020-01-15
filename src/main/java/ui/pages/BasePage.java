@@ -12,9 +12,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public abstract class BasePage {
 
-	// TODO Set the URL of the KEEPER instance which should be tested
-	public static final String KEEPER_URL = "";
-
 	protected WebDriver driver;
 
 	// TODO: Relocate the wait & Rework Waiting-Mechanism for the page loadings

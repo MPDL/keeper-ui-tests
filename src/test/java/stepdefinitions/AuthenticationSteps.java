@@ -2,8 +2,11 @@ package stepdefinitions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Properties;
+
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Lazy;
 
@@ -11,7 +14,6 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import testconfiguration.TestConfiguration;
-import ui.pages.BasePage;
 import ui.pages.HomePage;
 import ui.pages.LoginPage;
 
@@ -25,6 +27,10 @@ import ui.pages.LoginPage;
 public class AuthenticationSteps {
 
 	@Autowired
+	@Qualifier("loadTestDataProperties")
+	Properties testDataProperties;
+
+	@Autowired
 	WebDriver driver;
 
 	@Lazy
@@ -35,26 +41,22 @@ public class AuthenticationSteps {
 	@Autowired
 	HomePage homePage;
 
-	// TODO: Initialize user credentials in a appropriate way
-	private String email = "";
-	private String password = "";
-	private String userName = "";
-
 	@Given("Open LoginPage")
 	public void navigateToLoginPage() {
-		driver.navigate().to(BasePage.KEEPER_URL);
+		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 	}
 
 	@Given("Logged in as User")
 	public void loggedInAsUser() {
-		driver.navigate().to(BasePage.KEEPER_URL);
+		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 
 		this.loginAsUser();
 	}
 
 	@When("Login as user")
 	public void loginAsUser() {
-		loginPage.login(email, password);
+		loginPage.login(testDataProperties.getProperty("testUser1Email"),
+				testDataProperties.getProperty("testUser1Password"));
 	}
 
 	@When("Login with empty credentials")
@@ -78,7 +80,7 @@ public class AuthenticationSteps {
 	public void userHomePageOpens() {
 		String userAccountName = homePage.lookUpUserAccountName();
 
-		assertThat(userAccountName).isEqualTo(userName);
+		assertThat(userAccountName).isEqualTo(testDataProperties.getProperty("testUser1Name"));
 	}
 
 	@Then("Logout Page is opend")

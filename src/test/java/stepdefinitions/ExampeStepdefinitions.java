@@ -2,17 +2,23 @@ package stepdefinitions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.Properties;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import ui.pages.BasePage;
 
 public class ExampeStepdefinitions {
+
+	@Autowired
+	@Qualifier("loadTestDataProperties")
+	Properties testDataProperties;
 
 	@Autowired
 	WebDriver driver;
@@ -24,7 +30,7 @@ public class ExampeStepdefinitions {
 
 	@When("Go to Keeper start page")
 	public void two() {
-		driver.navigate().to(BasePage.KEEPER_URL);
+		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 	}
 
 	@Then("MPDL flag tag exists")
