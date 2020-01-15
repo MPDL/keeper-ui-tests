@@ -42,7 +42,8 @@ public class FileSteps {
 		assertThat(modifierName).isEqualTo("keeper");
 //		assertThat(modifierTime).isEqualTo("archive-metadata.md");
 
-		assertThat(outline).contains("Title", "Author", "Description", "Year", "Institute", "DOI");
+		assertThat(outline).contains("Title", "Author", "Publisher", "Description", "Year", "Institute",
+				"Resource Type", "License");
 
 		assertThat(buttonsPresent).isTrue();
 	}
