@@ -13,6 +13,8 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
+
 /**
  * The test configuration, responsible for the correct
  * initialization/termination of the WebDriver.
@@ -27,9 +29,7 @@ public class TestConfiguration {
 	@Bean(destroyMethod = "quit")
 	@Scope(SCOPE_CUCUMBER_GLUE)
 	public WebDriver initializeWebDriver() {
-		// TODO: Access the WebDriver in a generic way.
-		// Path of the local WebDriver executable:
-		System.setProperty("webdriver.gecko.driver", "C:\\WebDriver\\bin\\geckodriver-windows-64bit.exe");
+		WebDriverManager.firefoxdriver().setup();
 
 		WebDriver driver = new FirefoxDriver();
 
