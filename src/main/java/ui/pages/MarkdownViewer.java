@@ -95,7 +95,7 @@ public class MarkdownViewer extends BasePage {
 		return content;
 	}
 
-	public void editFile(String title, String author, String description, String year, String institute, String doi) {
+	public void editFile(String title, String author, String description, String year, String institute) {
 		this.editButton.click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("seafile-editor")));
 
@@ -104,9 +104,8 @@ public class MarkdownViewer extends BasePage {
 		this.addAuthor(author);
 		this.addDescription(description);
 		this.addYear(year);
-		// TODO: Should institute and DOI be edited?
-//		this.addInstitute(institute);
-//		this.addDOI(doi);
+		this.addInstitute(institute);
+		// TODO: Should: Publisher, Resource Type and License be edited?
 
 		WebElement saveButton = driver.findElement(By.id("saveButton"));
 		saveButton.click();

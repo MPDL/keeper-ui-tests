@@ -119,7 +119,18 @@ public class LibrariesSteps {
 		assertThat(elementContained).isTrue();
 	}
 
-	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @uploadFile")
+	@Then("Library contains certificate")
+	public void libraryContainsCertificate() {
+		// TODO: Rework/Relocate this navigation to the library!?
+		homePage.navigateTo();
+		homePage.openLibrary(newLibraryName);
+
+		boolean elementContained = libraryPage.containsElementsContainingNameSubstring("cared-data-certificate_");
+
+		assertThat(elementContained).isTrue();
+	}
+
+	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @uploadFile or @receiveCertificate")
 	public void deleteLibrary() {
 		homePage.navigateTo();
 		homePage.openMyLibraries();

@@ -42,9 +42,21 @@ public class LibraryPage extends BasePage {
 		super(driver);
 	}
 
-	public boolean containsElements(String... elements) {
-		for (String element : elements) {
-			List<WebElement> elementLinks = this.directoryViewDiv.findElements(By.linkText(element));
+	public boolean containsElements(String... elementNames) {
+		for (String elementName : elementNames) {
+			List<WebElement> elementLinks = this.directoryViewDiv.findElements(By.linkText(elementName));
+			if (elementLinks.isEmpty()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	public boolean containsElementsContainingNameSubstring(String... elementNameSubstrings) {
+		for (String elementNameSubstring : elementNameSubstrings) {
+			List<WebElement> elementLinks = this.directoryViewDiv
+					.findElements(By.partialLinkText(elementNameSubstring));
 			if (elementLinks.isEmpty()) {
 				return false;
 			}

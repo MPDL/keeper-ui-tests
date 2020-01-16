@@ -52,12 +52,24 @@ public class FileSteps {
 	public void editedArchiveMetadataDisplayedCorrectly() {
 		List<String> content = markdownViewer.getOutlineContent();
 
-		assertThat(content).contains("New Title", "New Author", "New Description", "New Year");
+		// TODO: Rework (Relocate) the access/initialization of (all) the test data
+		String title = "Title for a Test-Project";
+		String author = "Author-Lastname, Author-Firstname";
+		String description = "This is a Test-Description for a Test-Project.";
+		String year = "2020";
+		String institute = "Institute-Name; Department-Name; Director, Director-Lastname";
+
+		assertThat(content).contains(title, author, description, year, institute);
 	}
 
 	@When("Fill out archive metadata")
 	public void fillOutArchiveMetadata() {
-		markdownViewer.editFile("New Title", "New Author", "New Description", "New Year", "", "");
+		String title = "Title for a Test-Project";
+		String author = "Author-Lastname, Author-Firstname";
+		String description = "This is a Test-Description for a Test-Project.";
+		String year = "2020";
+		String institute = "Institute-Name; Department-Name; Director, Director-Lastname";
+		markdownViewer.editFile(title, author, description, year, institute);
 	}
 
 }

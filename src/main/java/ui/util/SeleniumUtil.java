@@ -25,4 +25,9 @@ public class SeleniumUtil {
 		driver.switchTo().window(tabs.get(1));
 	}
 
+	public static void switchToFirstTab(WebDriver driver) {
+		ArrayList<String> tabs = new ArrayList<>(driver.getWindowHandles());
+		driver.switchTo().window(tabs.get(0));
+	}
+
 }
