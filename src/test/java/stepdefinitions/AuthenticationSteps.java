@@ -43,13 +43,11 @@ public class AuthenticationSteps {
 
 	@Given("Open LoginPage")
 	public void navigateToLoginPage() {
-		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
+		driver.navigate().to(testDataProperties.getProperty("keeperUrl") + "accounts/login/");
 	}
 
 	@Given("Logged in as User")
 	public void loggedInAsUser() {
-		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
-
 		this.loginAsUser();
 	}
 
