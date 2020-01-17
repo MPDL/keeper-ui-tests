@@ -4,6 +4,7 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class LibraryPage extends BasePage {
 	}
 
 	public boolean containsElements(String... elementNames) {
-		return this.containsElements(elementNames);
+		return this.containsElements(Arrays.asList(elementNames));
 	}
 
 	public boolean containsElementsContainingNameSubstring(String... elementNameSubstrings) {
