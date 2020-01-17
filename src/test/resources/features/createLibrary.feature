@@ -6,7 +6,9 @@ Feature: Create New Library
   Scenario: Create new Library
     Given Logged in as User
     # And Homepage is opened
-    When Create new Library
-    Then New Library listed in My Libraries
-    And New Library contains default documents
+    When Create new Library "New UI Test Library 1"
+    Then My Libraries contains "New UI Test Library 1"
+    And Library "New UI Test Library 1" contains:
+    | archive-metadata.md |
+    | Cared-Data-Certificate-HowTo.pdf |
     # @After LibrariesSteps.deleteLibrary()

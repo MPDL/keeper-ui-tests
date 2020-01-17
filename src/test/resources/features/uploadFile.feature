@@ -5,20 +5,25 @@ Feature: Upload file
   @uploadFile
   Scenario: Upload file
     Given Logged in as User
-    And Create new Library
-    And Open new Library
-    When Upload file to Library
-    Then Library contains file
+    And Create new Library "New UI Test Library 5"
+    And Open Library "New UI Test Library 5"
+    When Upload file Test.txt to Library
+    Then Library contains file Test.txt
     # @After LibrariesSteps.deleteLibrary()
   
   @KP-29
   @receiveCertificate
   Scenario: Receive Certificate
     Given Logged in as User
-    And Create new Library
-    And Open new Library
-    When Upload file to Library
-    And Open archive metadata
-    And Fill out archive metadata
-    Then Library contains certificate
+    And Create new Library "New UI Test Library 6"
+    And Open Library "New UI Test Library 6"
+    When Upload file Test.txt to Library
+    And Open Markdown element archive-metadata.md
+    And Edit archive metadata:
+     | title 				| Title for a Test-Project 																			|
+		 | author 			| Author-Lastname, Author-Firstname 														|
+		 | description 	| This is a Test-Description for a Test-Project. 								|
+		 | year 				| 2020 																													|
+		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
+    Then Library "New UI Test Library 6" contains certificate
     # @After LibrariesSteps.deleteLibrary()

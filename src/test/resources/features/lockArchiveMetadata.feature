@@ -5,12 +5,12 @@ Feature: Lock Archive Metadata
   @LockArchiveMetadata
   Scenario: Lock archive metadata
     Given Logged in as User
-    And Create new Library
-    And Open new Library
-    When Lock archive metadata file
-    Then Archive metadata lock symbole is displayed
-    When Unlock archive metadata file
-    Then Archive metadata lock symbole is not displayed
+    And Create new Library "New UI Test Library 3"
+    And Open Library "New UI Test Library 3"
+    When Lock archive-metadata.md file
+    Then Lock symbole displayed for archive-metadata.md
+    When Unlock archive-metadata.md file
+    Then Lock symbole not displayed for archive-metadata.md
     # @After LibrariesSteps.deleteLibrary()
     
   #TODO: Archive metadata can be edited (by owner) while locked and after the lock

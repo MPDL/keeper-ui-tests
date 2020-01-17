@@ -2,7 +2,8 @@ package stepdefinitions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,25 +35,27 @@ public class LibrariesSteps {
 	@Autowired
 	LibraryPage libraryPage;
 
-	// TODO: move newLibraryName as variable to the feature file
-	private String newLibraryName;
+	// TODO: Is there a better way to delete created test libraries @after the tests
+	// than saving all in an instant variable
+	private List<String> librariesToDelete = new ArrayList<String>();
 
-	@When("Create new Library")
-	public void createNewLibrary() {
-		this.newLibraryName = "New UI Test Library " + LocalDateTime.now();
+	@When("Create new Library {string}")
+	public void createNewLibrary(String libraryName) {
+//		this.newLibraryName = "New UI Test Library " + LocalDateTime.now();
+		librariesToDelete.add(libraryName);
 
-		homePage.createNewLibrary(newLibraryName);
+		homePage.createNewLibrary(libraryName);
 	}
 
-	@Then("New Library listed in My Libraries")
-	public void newLibraryListedInMyLibraries() {
-		boolean newLibraryCreated = homePage.containsLibrary(newLibraryName);
+	@Then("My Libraries contains {string}")
+	public void myLibrariesContains(String libraryName) {
+		boolean containsLibrary = homePage.containsLibrary(libraryName);
 
-		assertThat(newLibraryCreated).isTrue();
+		assertThat(containsLibrary).isTrue();
 	}
 
-	@Then("New Library contains default documents")
-	public void newLibraryContainsDefaultDocuments() {
+	@Then("Library {string} contains:")
+	public void libraryContains(String libraryName, List<String> fileNames) {
 		// FIXME: Replace sleep with a appropriate wait
 		// Wait implicitly until Cared-Data-Certificate gets added to the new library
 		try {
@@ -62,14 +65,13 @@ public class LibrariesSteps {
 			e.printStackTrace();
 		}
 
-		boolean defaultElementsContained = homePage.openLibrary(newLibraryName).containsElements("archive-metadata.md",
-				"Cared-Data-Certificate-HowTo.pdf");
+		boolean defaultElementsContained = homePage.openLibrary(libraryName).containsElements(fileNames);
 
 		assertThat(defaultElementsContained).isTrue();
 	}
 
-	@Given("Open new Library")
-	public void openNewLibrary() {
+	@Given("Open Library {string}")
+	public void openNewLibrary(String libraryName) {
 		// FIXME: Replace sleep with a appropriate wait
 		// Wait implicitly until Cared-Data-Certificate gets added to the new library
 		try {
@@ -79,62 +81,66 @@ public class LibrariesSteps {
 			e.printStackTrace();
 		}
 
-		homePage.openLibrary(newLibraryName);
+		homePage.openLibrary(libraryName);
 	}
 
-	@Given("Open archive metadata")
-	public void openArchiveMetadata() {
-		libraryPage.openMarkdownElement("archive-metadata.md");
+	@Given("Open Markdown element {word}")
+	public void openMarkdownElement(String fileName) {
+		libraryPage.openMarkdownElement(fileName);
 	}
 
-	@When("Lock archive metadata file")
-	public void lockArchiveMetadataFile() {
-		libraryPage.lockElement("archive-metadata.md");
+	@When("Lock {word} file")
+	public void lockFile(String fileName) {
+		libraryPage.lockElement(fileName);
 	}
 
-	@Then("Archive metadata lock symbole is displayed")
-	public void archiveMetadataLockSymboleIsDisplayed() {
-		assertThat(libraryPage.lockedIconVisible("archive-metadata.md")).isTrue();
+	@Then("Lock symbole displayed for {word}")
+	public void lockSymboleDisplayedForFile(String fileName) {
+		assertThat(libraryPage.lockedIconVisible(fileName)).isTrue();
 	}
 
-	@When("Unlock archive metadata file")
-	public void unlockArchiveMetadataFile() {
-		libraryPage.unlockElement("archive-metadata.md");
+	@When("Unlock {word} file")
+	public void unlockFile(String fileName) {
+		libraryPage.unlockElement(fileName);
 	}
 
-	@Then("Archive metadata lock symbole is not displayed")
-	public void archiveMetadataLockSymboleIsNotDisplayed() {
-		assertThat(libraryPage.lockedIconVisible("archive-metadata.md")).isFalse();
+	@Then("Lock symbole not displayed for {word}")
+	public void lockSymboleNotDisplayedForFile(String fileName) {
+		assertThat(libraryPage.lockedIconVisible(fileName)).isFalse();
 	}
 
-	@When("Upload file to Library")
-	public void uploadFileToLibrary() {
-		libraryPage.uploadFile("Test.txt");
+	@When("Upload file {word} to Library")
+	public void uploadFileToLibrary(String fileName) {
+		libraryPage.uploadFile(fileName);
 	}
 
-	@Then("Library contains file")
-	public void libraryContainsFile() {
-		boolean elementContained = libraryPage.containsElements("Test.txt");
+	@Then("Library contains file {word}")
+	public void libraryContainsFile(String fileName) {
+		boolean elementContained = libraryPage.containsElements(fileName);
 
 		assertThat(elementContained).isTrue();
 	}
 
-	@Then("Library contains certificate")
-	public void libraryContainsCertificate() {
+	@Then("Library {string} contains certificate")
+	public void libraryContainsCertificate(String libraryName) {
 		// TODO: Rework/Relocate this navigation to the library!?
 		homePage.navigateTo();
-		homePage.openLibrary(newLibraryName);
+		homePage.openLibrary(libraryName);
 
+		// TODO: How to handle "cared-data-certificate_" correctly
 		boolean elementContained = libraryPage.containsElementsContainingNameSubstring("cared-data-certificate_");
 
 		assertThat(elementContained).isTrue();
 	}
 
+	// TODO: Add this @after to a CleanUpHooks class
 	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @uploadFile or @receiveCertificate")
-	public void deleteLibrary() {
-		homePage.navigateTo();
-		homePage.openMyLibraries();
-		homePage.deleteLibrary(newLibraryName);
+	public void deleteLibraries() {
+		for (String libraryName : librariesToDelete) {
+			homePage.navigateTo();
+			homePage.openMyLibraries();
+			homePage.deleteLibrary(libraryName);
+		}
 	}
 
 }

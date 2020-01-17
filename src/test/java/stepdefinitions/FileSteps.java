@@ -3,11 +3,13 @@ package stepdefinitions;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 
+import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import ui.pages.MarkdownViewer;
@@ -27,49 +29,53 @@ public class FileSteps {
 	@Autowired
 	MarkdownViewer markdownViewer;
 
-	@Then("Archive metadata is displayed correctly")
-	public void archiveMetadataDisplayedCorrectly() {
-		String fileName = markdownViewer.getFileName();
-		String modifierName = markdownViewer.getModifierName();
-		// TODO: Handle Check for modifier time correctly
-//		String modifierTime = markdownViewer.getModifierTime();
+	@Then("Markdown file title {word} present")
+	public void markdownFileTitlePresent(String fileName) {
+		String fileTitle = markdownViewer.getFileName();
 
+		assertThat(fileTitle).isEqualTo(fileName);
+	}
+
+	@Then("Markdown-Viewer buttons present")
+	public void markdownViewerButtonsPresent() {
 		boolean buttonsPresent = markdownViewer.buttonsPresent();
-
-		List<String> outline = markdownViewer.getOutline();
-
-		assertThat(fileName).isEqualTo("archive-metadata.md");
-		assertThat(modifierName).isEqualTo("keeper");
-//		assertThat(modifierTime).isEqualTo("archive-metadata.md");
-
-		assertThat(outline).contains("Title", "Author", "Publisher", "Description", "Year", "Institute",
-				"Resource Type", "License");
 
 		assertThat(buttonsPresent).isTrue();
 	}
 
-	@Then("Edited archive metadata is displayed correctly")
-	public void editedArchiveMetadataDisplayedCorrectly() {
-		List<String> content = markdownViewer.getOutlineContent();
+	@Then("Archive metadata content consists of:")
+	public void archiveMetadataContentConsistsOf(List<String> archiveMetadataContent) {
+		List<String> outline = markdownViewer.getOutline();
 
-		// TODO: Rework (Relocate) the access/initialization of (all) the test data
-		String title = "Title for a Test-Project";
-		String author = "Author-Lastname, Author-Firstname";
-		String description = "This is a Test-Description for a Test-Project.";
-		String year = "2020";
-		String institute = "Institute-Name; Department-Name; Director, Director-Lastname";
+		// TODO: Handle Check for modifierTime and modifierName correctly
+//		String modifierName = markdownViewer.getModifierName();
+//		String modifierTime = markdownViewer.getModifierTime();
 
-		assertThat(content).contains(title, author, description, year, institute);
+//		assertThat(modifierName).isEqualTo("dev-keeper");
+//		assertThat(modifierTime).isEqualTo("archive-metadata.md");
+
+		assertThat(outline).containsExactlyElementsOf(archiveMetadataContent);
 	}
 
-	@When("Fill out archive metadata")
-	public void fillOutArchiveMetadata() {
-		String title = "Title for a Test-Project";
-		String author = "Author-Lastname, Author-Firstname";
-		String description = "This is a Test-Description for a Test-Project.";
-		String year = "2020";
-		String institute = "Institute-Name; Department-Name; Director, Director-Lastname";
-		markdownViewer.editFile(title, author, description, year, institute);
+	@Then("Archive metadata contains:")
+	public void archiveMetadataContains(DataTable archiveMetadataTable) {
+		List<String> content = markdownViewer.getOutlineContent();
+
+		Map<String, String> archiveMetadataMap = archiveMetadataTable.asMap(String.class, String.class);
+
+		assertThat(content).contains(archiveMetadataMap.get("title"), archiveMetadataMap.get("author"),
+				archiveMetadataMap.get("description"), archiveMetadataMap.get("year"),
+				archiveMetadataMap.get("institute"));
+	}
+
+	@When("Edit archive metadata:")
+	public void editArchiveMetadata(DataTable archiveMetadataTable) {
+
+		Map<String, String> archiveMetadataMap = archiveMetadataTable.asMap(String.class, String.class);
+
+		markdownViewer.editFile(archiveMetadataMap.get("title"), archiveMetadataMap.get("author"),
+				archiveMetadataMap.get("description"), archiveMetadataMap.get("year"),
+				archiveMetadataMap.get("institute"));
 	}
 
 }

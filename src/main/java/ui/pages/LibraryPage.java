@@ -4,6 +4,7 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.io.File;
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -42,7 +43,7 @@ public class LibraryPage extends BasePage {
 		super(driver);
 	}
 
-	public boolean containsElements(String... elementNames) {
+	public boolean containsElements(Collection<String> elementNames) {
 		for (String elementName : elementNames) {
 			List<WebElement> elementLinks = this.directoryViewDiv.findElements(By.linkText(elementName));
 			if (elementLinks.isEmpty()) {
@@ -51,6 +52,10 @@ public class LibraryPage extends BasePage {
 		}
 
 		return true;
+	}
+
+	public boolean containsElements(String... elementNames) {
+		return this.containsElements(elementNames);
 	}
 
 	public boolean containsElementsContainingNameSubstring(String... elementNameSubstrings) {
@@ -121,7 +126,7 @@ public class LibraryPage extends BasePage {
 		WebElement uploadInputElement = driver.findElement(By.id("advanced-upload-file-input"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].style.visibility = 'visible';", uploadInputElement);
 
-		// TODO: Move the extraction of the filepath to another class/method
+		// FIXME: Move the extraction of the filepath to another class/method
 		URL fileUrl = this.getClass().getClassLoader().getResource("files/" + fileName);
 		String filePath = fileUrl.getPath();
 		File systemIndependentFile = new File(filePath);
