@@ -67,6 +67,7 @@ public class ContentInformationSteps {
 
 	@Then("Help page is opend")
 	public void helpPageIsOpened() {
+		// TODO: Move Strings which identify the page e.g. "zendesk" to the page class?
 		assertThat(helpPage.getURL()).contains("zendesk", "Keeper");
 	}
 
@@ -85,29 +86,14 @@ public class ContentInformationSteps {
 		footerComponent.openAboutKeeper();
 	}
 
-	@Then("About Keeper is opend")
-	public void aboutKeeperIsOpened() {
-		assertThat(fileViewer.getFileTitle()).isEqualTo("About.markdown");
-	}
-
 	@When("Open Cared Data Commitment")
 	public void openCaredDataCommitment() {
 		footerComponent.openCaredDataCommitment();
 	}
 
-	@Then("Cared Data Commitment is opend")
-	public void caredDataCommitmentIsOpened() {
-		assertThat(fileViewer.getFileTitle()).isEqualTo("CaredDataPrinciples.markdown");
-	}
-
-	@When("Open Terms of Servicet")
+	@When("Open Terms of Service")
 	public void openTermsOfService() {
 		footerComponent.openTermsOfService();
-	}
-
-	@Then("Terms of Service is opend")
-	public void termsOfServiceIsOpened() {
-		assertThat(fileViewer.getFileTitle()).isEqualTo("TermsOfService.markdown");
 	}
 
 	@When("Open Download Client page")
@@ -120,19 +106,19 @@ public class ContentInformationSteps {
 		assertThat(downloadClientPage.getTitle()).isEqualTo("Download - KEEPER");
 	}
 
-	@Then("Seafile link is corect")
-	public void seafileLinkIsCorect() {
-		assertThat(footerComponent.getSeafileLink()).isEqualTo("https://www.seafile.com/en/home/");
+	@Then("Seafile link is {word}")
+	public void seafileLinkIsEquals(String seafileLink) {
+		assertThat(footerComponent.getSeafileLink()).isEqualTo(seafileLink);
 	}
 
-	@Then("MPDL link is corect")
-	public void mpdlLinkIsCorect() {
-		assertThat(footerComponent.getMpdlLink()).isEqualTo("https://www.mpdl.mpg.de/");
+	@Then("MPDL link is {word}")
+	public void mpdlLinkIsEquals(String mpdlLink) {
+		assertThat(footerComponent.getMpdlLink()).isEqualTo(mpdlLink);
 	}
 
-	@Then("Contact Keeper Support email is corect")
-	public void contactKeeperSupportEmailIsCorect() {
-		assertThat(footerComponent.getKeeperEmail()).isEqualTo("keeper@mpdl.mpg.de");
+	@Then("Contact Keeper Support email is {word}")
+	public void contactKeeperSupportEmailIsEquals(String keeperContactEmail) {
+		assertThat(footerComponent.getKeeperEmail()).isEqualTo(keeperContactEmail);
 	}
 
 	@When("Open Impressum")
@@ -140,19 +126,15 @@ public class ContentInformationSteps {
 		footerComponent.openImpressum();
 	}
 
-	@Then("Impressum is opend")
-	public void impressumIsOpened() {
-		assertThat(fileViewer.getFileTitle()).isEqualTo("Impressum.markdown");
-	}
-
 	@When("Open Privacy Policy")
 	public void openPrivacyPolicy() {
 		footerComponent.openPrivacyPolicy();
 	}
 
-	@Then("Privacy Policy is opend")
-	public void privacyPolicyIsOpened() {
-		assertThat(fileViewer.getFileTitle()).isEqualTo("DSGVO_Keeper.md");
+	@Then("File {word} is viewed")
+	public void fileIsViewed(String fileName) {
+		// TODO: Move this method to FileSteps?
+		assertThat(fileViewer.getFileTitle()).isEqualTo(fileName);
 	}
 
 }

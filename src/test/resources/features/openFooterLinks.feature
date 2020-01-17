@@ -16,18 +16,18 @@ Feature: Open footer links
 	Scenario: Open About Keeper
 	Given Logged in as User
 	When Open About Keeper
-	Then About Keeper is opend
+	Then File About.markdown is viewed
 	
 	Scenario: Open Cared Data Commitment
 	Given Logged in as User
 	When Open Cared Data Commitment
-	Then Cared Data Commitment is opend
+	Then File CaredDataPrinciples.markdown is viewed
 	
 	@KP-12
-	Scenario: Open Terms of Servicet
+	Scenario: Open Terms of Service
 	Given Logged in as User
-	When Open Terms of Servicet
-	Then Terms of Service is opend
+	When Open Terms of Service
+	Then File TermsOfService.markdown is viewed
 	
 	@KP-39
 	Scenario: Open Download Client
@@ -38,26 +38,26 @@ Feature: Open footer links
 	@KP-13
 	Scenario: Check Seafile link
 	Given Logged in as User
-	Then Seafile link is corect
+	Then Seafile link is https://www.seafile.com/en/home/
 	
 	@KP-7
 	Scenario: Check MPDL link
 	Given Logged in as User
-	Then MPDL link is corect
+	Then MPDL link is https://www.mpdl.mpg.de/
 	
 	@KP-15
 	Scenario: Check Contact Keeper Support email
 	Given Logged in as User
-	Then Contact Keeper Support email is corect
+	Then Contact Keeper Support email is keeper@mpdl.mpg.de
 	
 	@KP-16
 	Scenario: Open Impressum
 	Given Logged in as User
 	When Open Impressum
-	Then Impressum is opend
+	Then File Impressum.markdown is viewed
 	
 	Scenario: Open Privacy Policy
 	Given Logged in as User
 	When Open Privacy Policy
-	Then Privacy Policy is opend
+	Then File DSGVO_Keeper.md is viewed
 	
