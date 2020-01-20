@@ -2,7 +2,7 @@ Feature: Lock Archive Metadata
   Logged in user can lock the Archive Metadata file of a library.
   
   @KP-21
-  @LockArchiveMetadata
+  @createLibrary
   Scenario: Lock and unlock archive metadata
     Given Logged in as User
     And Create new Library "New UI Test Library 3"
@@ -11,10 +11,9 @@ Feature: Lock Archive Metadata
     Then Lock symbole displayed for archive-metadata.md
     When Unlock archive-metadata.md file
     Then Lock symbole not displayed for archive-metadata.md
-    # @After LibrariesSteps.deleteLibrary()
     
   @KP-21
-  @EditLockedArchiveMetadata
+  @createLibrary
   Scenario: Owner can edit locked archive metadata
     Given Logged in as User
     And Create new Library "New UI Test Library 3"
@@ -33,10 +32,9 @@ Feature: Lock Archive Metadata
 		 | description 	| This is a Test-Description for a Test-Project. 								|
 		 | year 				| 2020 																													|
 		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
-    # @After LibrariesSteps.deleteLibrary()
     
   @KP-21
-  @EditUnlockedArchiveMetadata
+  @createLibrary
   Scenario: Owner can edit unlocked archive metadata
     Given Logged in as User
     And Create new Library "New UI Test Library 3"
@@ -56,7 +54,6 @@ Feature: Lock Archive Metadata
 		 | description 	| This is a Test-Description for a Test-Project. 								|
 		 | year 				| 2020 																													|
 		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
-    # @After LibrariesSteps.deleteLibrary()
   
   #TODO: Further test case: other user (with edit rights) can not edit file while locked
   

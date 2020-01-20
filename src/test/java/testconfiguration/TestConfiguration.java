@@ -4,6 +4,8 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
@@ -11,6 +13,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
@@ -52,6 +55,15 @@ public class TestConfiguration {
 		}
 
 		return testDataProperties;
+	}
+
+	@Bean
+	@Lazy
+	@Scope(SCOPE_CUCUMBER_GLUE)
+	public List<String> createLibrariesToDeleteList() {
+		List<String> librariesToDelete = new ArrayList<String>();
+
+		return librariesToDelete;
 	}
 
 }

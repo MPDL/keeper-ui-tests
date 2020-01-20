@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import io.cucumber.java.Before;
 
 /**
- * Class containing all hooks which should be executed before all scenarios.
+ * Class containing all hooks which should be executed before the scenarios.
  * 
  * @author helk
  *

@@ -2,17 +2,16 @@ Feature: Upload file
   Logged in user can upload a file to a library.
   
   @KP-29
-  @uploadFile
+  @createLibrary
   Scenario: Upload file
     Given Logged in as User
     And Create new Library "New UI Test Library 5"
     And Open Library "New UI Test Library 5"
     When Upload file Test.txt to Library
     Then Library contains file Test.txt
-    # @After LibrariesSteps.deleteLibrary()
   
   @KP-29
-  @receiveCertificate
+  @createLibrary
   Scenario: Receive Certificate
     Given Logged in as User
     And Create new Library "New UI Test Library 6"
@@ -26,4 +25,3 @@ Feature: Upload file
 		 | year 				| 2020 																													|
 		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
     Then Library "New UI Test Library 6" contains certificate
-    # @After LibrariesSteps.deleteLibrary()

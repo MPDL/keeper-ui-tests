@@ -2,14 +2,13 @@ package stepdefinitions;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
 
-import io.cucumber.java.After;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -35,9 +34,10 @@ public class LibrariesSteps {
 	@Autowired
 	LibraryPage libraryPage;
 
-	// TODO: Is there a better way to delete created test libraries @after the tests
-	// than saving all in an instant variable
-	private List<String> librariesToDelete = new ArrayList<String>();
+	@Lazy
+	@Qualifier("createLibrariesToDeleteList")
+	@Autowired
+	List<String> librariesToDelete;
 
 	@When("Create new Library {string}")
 	public void createNewLibrary(String libraryName) {
@@ -133,16 +133,6 @@ public class LibrariesSteps {
 		boolean elementContained = libraryPage.containsElementsContainingNameSubstring("cared-data-certificate_");
 
 		assertThat(elementContained).isTrue();
-	}
-
-	// TODO: Add this @after to a CleanUpHooks class
-	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @EditLockedArchiveMetadata or @EditUnlockedArchiveMetadata or @uploadFile or @receiveCertificate")
-	public void deleteLibraries() {
-		for (String libraryName : librariesToDelete) {
-			homePage.navigateTo();
-			homePage.openMyLibraries();
-			homePage.deleteLibrary(libraryName);
-		}
 	}
 
 }

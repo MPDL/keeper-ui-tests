@@ -2,7 +2,7 @@ Feature: Create New Library
   Logged in user can create new libraries.
   
   @KP-17
-  @createNewLibrary
+  @createLibrary
   Scenario: Create new Library
     Given Logged in as User
     # And Homepage is opened
@@ -11,4 +11,3 @@ Feature: Create New Library
     And Library "New UI Test Library 1" contains:
     | archive-metadata.md |
     | Cared-Data-Certificate-HowTo.pdf |
-    # @After LibrariesSteps.deleteLibrary()
