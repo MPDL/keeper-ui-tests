@@ -3,7 +3,7 @@ Feature: Lock Archive Metadata
   
   @KP-21
   @LockArchiveMetadata
-  Scenario: Lock archive metadata
+  Scenario: Lock and unlock archive metadata
     Given Logged in as User
     And Create new Library "New UI Test Library 3"
     And Open Library "New UI Test Library 3"
@@ -13,8 +13,50 @@ Feature: Lock Archive Metadata
     Then Lock symbole not displayed for archive-metadata.md
     # @After LibrariesSteps.deleteLibrary()
     
-  #TODO: Archive metadata can be edited (by owner) while locked and after the lock
-  
-  #TODO: Further test case: Extract the unlock in an extra test case
+  @KP-21
+  @EditLockedArchiveMetadata
+  Scenario: Owner can edit locked archive metadata
+    Given Logged in as User
+    And Create new Library "New UI Test Library 3"
+    And Open Library "New UI Test Library 3"
+    When Lock archive-metadata.md file
+    And Open Markdown element archive-metadata.md
+    And Edit archive metadata:
+     | title 				| Title for a Test-Project 																			|
+		 | author 			| Author-Lastname, Author-Firstname 														|
+		 | description 	| This is a Test-Description for a Test-Project. 								|
+		 | year 				| 2020 																													|
+		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
+    Then Archive metadata contains:
+     | title 				| Title for a Test-Project 																			|
+		 | author 			| Author-Lastname, Author-Firstname 														|
+		 | description 	| This is a Test-Description for a Test-Project. 								|
+		 | year 				| 2020 																													|
+		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
+    # @After LibrariesSteps.deleteLibrary()
+    
+  @KP-21
+  @EditUnlockedArchiveMetadata
+  Scenario: Owner can edit unlocked archive metadata
+    Given Logged in as User
+    And Create new Library "New UI Test Library 3"
+    And Open Library "New UI Test Library 3"
+    And Lock archive-metadata.md file
+    Then Unlock archive-metadata.md file
+    And Open Markdown element archive-metadata.md
+    And Edit archive metadata:
+     | title 				| Title for a Test-Project 																			|
+		 | author 			| Author-Lastname, Author-Firstname 														|
+		 | description 	| This is a Test-Description for a Test-Project. 								|
+		 | year 				| 2020 																													|
+		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
+    Then Archive metadata contains:
+     | title 				| Title for a Test-Project 																			|
+		 | author 			| Author-Lastname, Author-Firstname 														|
+		 | description 	| This is a Test-Description for a Test-Project. 								|
+		 | year 				| 2020 																													|
+		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
+    # @After LibrariesSteps.deleteLibrary()
   
   #TODO: Further test case: other user (with edit rights) can not edit file while locked
+  

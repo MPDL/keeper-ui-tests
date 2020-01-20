@@ -116,6 +116,8 @@ public class LibrariesSteps {
 
 	@Then("Library contains file {word}")
 	public void libraryContainsFile(String fileName) {
+		// TODO: Return all files of the library and assert whether fileName is
+		// contained. Rework this for all assertions which only check true/false!
 		boolean elementContained = libraryPage.containsElements(fileName);
 
 		assertThat(elementContained).isTrue();
@@ -134,7 +136,7 @@ public class LibrariesSteps {
 	}
 
 	// TODO: Add this @after to a CleanUpHooks class
-	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @uploadFile or @receiveCertificate")
+	@After("@createNewLibrary or @openArchiveMetadata or @FillOutArchiveMetadata or @LockArchiveMetadata or @EditLockedArchiveMetadata or @EditUnlockedArchiveMetadata or @uploadFile or @receiveCertificate")
 	public void deleteLibraries() {
 		for (String libraryName : librariesToDelete) {
 			homePage.navigateTo();
