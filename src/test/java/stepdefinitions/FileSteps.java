@@ -12,6 +12,7 @@ import org.springframework.context.annotation.Lazy;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import ui.pages.FileViewer;
 import ui.pages.MarkdownViewer;
 
 /**
@@ -28,6 +29,10 @@ public class FileSteps {
 	@Lazy
 	@Autowired
 	MarkdownViewer markdownViewer;
+
+	@Lazy
+	@Autowired
+	FileViewer fileViewer;
 
 	@Then("Markdown file title {word} present")
 	public void markdownFileTitlePresent(String fileName) {
@@ -76,6 +81,11 @@ public class FileSteps {
 		markdownViewer.editFile(archiveMetadataMap.get("title"), archiveMetadataMap.get("author"),
 				archiveMetadataMap.get("description"), archiveMetadataMap.get("year"),
 				archiveMetadataMap.get("institute"));
+	}
+
+	@Then("File {word} is viewed")
+	public void fileIsViewed(String fileName) {
+		assertThat(fileViewer.getFileTitle()).isEqualTo(fileName);
 	}
 
 }

@@ -11,7 +11,6 @@ import io.cucumber.java.en.When;
 import ui.components.FooterComponent;
 import ui.pages.CatalogPage;
 import ui.pages.DownloadClientPage;
-import ui.pages.FileViewer;
 import ui.pages.HelpPage;
 import ui.pages.HomePage;
 
@@ -45,10 +44,6 @@ public class ContentInformationSteps {
 	@Lazy
 	@Autowired
 	DownloadClientPage downloadClientPage;
-
-	@Lazy
-	@Autowired
-	FileViewer fileViewer;
 
 	@When("Open Project Catalog")
 	public void openProjectCatalog() {
@@ -129,12 +124,6 @@ public class ContentInformationSteps {
 	@When("Open Privacy Policy")
 	public void openPrivacyPolicy() {
 		footerComponent.openPrivacyPolicy();
-	}
-
-	@Then("File {word} is viewed")
-	public void fileIsViewed(String fileName) {
-		// TODO: Move this method to FileSteps?
-		assertThat(fileViewer.getFileTitle()).isEqualTo(fileName);
 	}
 
 }
