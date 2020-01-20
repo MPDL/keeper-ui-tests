@@ -10,6 +10,8 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -29,9 +31,13 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 @ComponentScan({ "ui.pages", "ui.components" })
 public class TestConfiguration {
 
+	private Logger logger = LoggerFactory.getLogger(TestConfiguration.class);
+
 	@Bean(destroyMethod = "quit")
 	@Scope(SCOPE_CUCUMBER_GLUE)
 	public WebDriver initializeWebDriver() {
+		logger.info("Initializing Firefox WebDriver:");
+
 		WebDriverManager.firefoxdriver().setup();
 
 		WebDriver driver = new FirefoxDriver();
@@ -42,6 +48,8 @@ public class TestConfiguration {
 	@Bean
 	@Scope("singleton")
 	public Properties loadTestDataProperties() {
+		logger.info("Loading the testData.properties...");
+
 		Properties testDataProperties = new Properties();
 
 		InputStream propertiesInput = TestConfiguration.class.getClassLoader()
@@ -50,8 +58,7 @@ public class TestConfiguration {
 		try {
 			testDataProperties.load(propertiesInput);
 		} catch (IOException e) {
-			// TODO Add Logger to class to log this exception
-			e.printStackTrace();
+			logger.error("Failed loading the testData.properties.", e);
 		}
 
 		return testDataProperties;

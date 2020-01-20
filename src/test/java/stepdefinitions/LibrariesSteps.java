@@ -5,6 +5,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.util.List;
 
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -22,6 +24,8 @@ import ui.pages.LibraryPage;
  *
  */
 public class LibrariesSteps {
+
+	private Logger logger = LoggerFactory.getLogger(LibrariesSteps.class);
 
 	@Autowired
 	WebDriver driver;
@@ -61,8 +65,7 @@ public class LibrariesSteps {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Handle exception
-			e.printStackTrace();
+			logger.error("Waiting for Library was interrupted.", e);
 		}
 
 		boolean defaultElementsContained = homePage.openLibrary(libraryName).containsElements(fileNames);
@@ -77,8 +80,7 @@ public class LibrariesSteps {
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
-			// TODO Handle exception
-			e.printStackTrace();
+			logger.error("Waiting for Library was interrupted.", e);
 		}
 
 		homePage.openLibrary(libraryName);
