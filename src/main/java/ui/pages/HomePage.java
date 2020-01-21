@@ -19,7 +19,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 /**
- * Page Object encapsulates the Start/Home page.
+ * Page Object encapsulates the Home page (Page after user login).
  * 
  * @author helk
  *

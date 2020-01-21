@@ -8,8 +8,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 
 import io.cucumber.java.Before;
+import ui.pages.StartPage;
 
 /**
  * Class containing all hooks which should be executed before the scenarios.
@@ -28,6 +30,10 @@ public class InitializationHooks {
 	@Autowired
 	WebDriver driver;
 
+	@Lazy
+	@Autowired
+	StartPage startPage;
+
 	// @Before(order = 1)
 	// -> Initialization of the WebDriver is done in TestConfiguration
 
@@ -35,7 +41,7 @@ public class InitializationHooks {
 	public void openKeeperStartPage() {
 		logger.info("Navigate to Keeper Startpage.");
 
-		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
+		startPage.navigateTo();
 	}
 
 	@Before(order = 3)
