@@ -53,9 +53,9 @@ public class LibrariesSteps {
 
 	@Then("My Libraries contains {string}")
 	public void myLibrariesContains(String libraryName) {
-		boolean containsLibrary = homePage.containsLibrary(libraryName);
+		List<String> containedLibraryNames = homePage.readLibraryNames();
 
-		assertThat(containsLibrary).isTrue();
+		assertThat(containedLibraryNames).contains(libraryName);
 	}
 
 	@Then("Library {string} contains:")
@@ -68,9 +68,9 @@ public class LibrariesSteps {
 			logger.error("Waiting for Library was interrupted.", e);
 		}
 
-		boolean defaultElementsContained = homePage.openLibrary(libraryName).containsElements(fileNames);
+		List<String> containedFileNames = homePage.openLibrary(libraryName).readFileNames();
 
-		assertThat(defaultElementsContained).isTrue();
+		assertThat(containedFileNames).containsAll(fileNames);
 	}
 
 	@Given("Open Library {string}")
@@ -98,7 +98,9 @@ public class LibrariesSteps {
 
 	@Then("Lock symbole displayed for {word}")
 	public void lockSymboleDisplayedForFile(String fileName) {
-		assertThat(libraryPage.lockedIconVisible(fileName)).isTrue();
+		boolean lockedIconVisible = libraryPage.lockedIconVisible(fileName);
+
+		assertThat(lockedIconVisible).as("Check visibility of the Locked-Icon.").isTrue();
 	}
 
 	@When("Unlock {word} file")
@@ -108,7 +110,9 @@ public class LibrariesSteps {
 
 	@Then("Lock symbole not displayed for {word}")
 	public void lockSymboleNotDisplayedForFile(String fileName) {
-		assertThat(libraryPage.lockedIconVisible(fileName)).isFalse();
+		boolean lockedIconVisible = libraryPage.lockedIconVisible(fileName);
+
+		assertThat(lockedIconVisible).as("Check non-visibility of the Locked-Icon.").isFalse();
 	}
 
 	@When("Upload file {word} to Library")
@@ -118,11 +122,9 @@ public class LibrariesSteps {
 
 	@Then("Library contains file {word}")
 	public void libraryContainsFile(String fileName) {
-		// TODO: Return all files of the library and assert whether fileName is
-		// contained. Rework this for all assertions which only check true/false!
-		boolean elementContained = libraryPage.containsElements(fileName);
+		List<String> containedFileNames = libraryPage.readFileNames();
 
-		assertThat(elementContained).isTrue();
+		assertThat(containedFileNames).contains(fileName);
 	}
 
 	@Then("Library {string} contains certificate")
@@ -131,10 +133,9 @@ public class LibrariesSteps {
 		homePage.navigateTo();
 		homePage.openLibrary(libraryName);
 
-		// TODO: How to handle "cared-data-certificate_" correctly
-		boolean elementContained = libraryPage.containsElementsContainingNameSubstring("cared-data-certificate_");
+		List<String> containedFileNames = libraryPage.readFileNames();
 
-		assertThat(elementContained).isTrue();
+		assertThat(containedFileNames).anyMatch(fileName -> fileName.startsWith("cared-data-certificate_"));
 	}
 
 }

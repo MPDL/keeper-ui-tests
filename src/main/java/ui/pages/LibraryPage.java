@@ -4,8 +4,7 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.io.File;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -44,31 +43,13 @@ public class LibraryPage extends BasePage {
 		super(driver);
 	}
 
-	public boolean containsElements(Collection<String> elementNames) {
-		for (String elementName : elementNames) {
-			List<WebElement> elementLinks = this.directoryViewDiv.findElements(By.linkText(elementName));
-			if (elementLinks.isEmpty()) {
-				return false;
-			}
-		}
+	public List<String> readFileNames() {
+		List<WebElement> fileLinks = this.directoryViewDiv.findElements(By.xpath(".//*[@class='dirent-name']/a"));
 
-		return true;
-	}
+		List<String> fileNames = new ArrayList<>();
+		fileLinks.forEach(fileLink -> fileNames.add(fileLink.getText()));
 
-	public boolean containsElements(String... elementNames) {
-		return this.containsElements(Arrays.asList(elementNames));
-	}
-
-	public boolean containsElementsContainingNameSubstring(String... elementNameSubstrings) {
-		for (String elementNameSubstring : elementNameSubstrings) {
-			List<WebElement> elementLinks = this.directoryViewDiv
-					.findElements(By.partialLinkText(elementNameSubstring));
-			if (elementLinks.isEmpty()) {
-				return false;
-			}
-		}
-
-		return true;
+		return fileNames;
 	}
 
 	public void openMarkdownElement(String elementName) {

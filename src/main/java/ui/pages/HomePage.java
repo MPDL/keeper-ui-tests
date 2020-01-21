@@ -2,6 +2,7 @@ package ui.pages;
 
 import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -95,10 +96,13 @@ public class HomePage extends BasePage {
 		return homePage;
 	}
 
-	public boolean containsLibrary(String libraryName) {
-		List<WebElement> libraryLinks = this.myLibrariesDiv.findElements(By.linkText(libraryName));
+	public List<String> readLibraryNames() {
+		List<WebElement> libraryLinks = this.myLibrariesDiv.findElements(By.xpath(".//*[@class='repo-name-span']/a"));
 
-		return !libraryLinks.isEmpty();
+		List<String> libraryNames = new ArrayList<>();
+		libraryLinks.forEach(libraryLink -> libraryNames.add(libraryLink.getText()));
+
+		return libraryNames;
 	}
 
 	public HomePage deleteLibrary(String libraryName) {

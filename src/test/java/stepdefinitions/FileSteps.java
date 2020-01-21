@@ -45,7 +45,7 @@ public class FileSteps {
 	public void markdownViewerButtonsPresent() {
 		boolean buttonsPresent = markdownViewer.buttonsPresent();
 
-		assertThat(buttonsPresent).isTrue();
+		assertThat(buttonsPresent).as("Check presence of the Markdown-Viewer buttons.").isTrue();
 	}
 
 	@Then("Archive metadata content consists of:")
