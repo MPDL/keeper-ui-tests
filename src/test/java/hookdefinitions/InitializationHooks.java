@@ -4,6 +4,8 @@ import java.util.Properties;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 
@@ -17,6 +19,8 @@ import io.cucumber.java.Before;
  */
 public class InitializationHooks {
 
+	private Logger logger = LoggerFactory.getLogger(InitializationHooks.class);
+
 	@Autowired
 	@Qualifier("loadTestDataProperties")
 	Properties testDataProperties;
@@ -29,11 +33,15 @@ public class InitializationHooks {
 
 	@Before(order = 2)
 	public void openKeeperStartPage() {
+		logger.info("Navigate to Keeper Startpage.");
+
 		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 	}
 
 	@Before(order = 3)
 	public void setEnglishAsLanguageByCookie() {
+		logger.info("Set language to Enlish by cookie.");
+
 		Cookie languageCookie = new Cookie("django_language", "en");
 		driver.manage().addCookie(languageCookie);
 	}
