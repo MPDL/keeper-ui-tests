@@ -11,7 +11,8 @@ import io.cucumber.testng.CucumberOptions;
  * @author helk
  *
  */
-@CucumberOptions(plugin = "pretty", glue = "stepdefinitions", features = "src/test/resources/features")
+@CucumberOptions(plugin = "pretty", glue = { "stepdefinitions",
+		"hookdefinitions" }, features = "src/test/resources/features")
 public class TestRunnerTestNG extends AbstractTestNGCucumberTests {
 
 	@Override
