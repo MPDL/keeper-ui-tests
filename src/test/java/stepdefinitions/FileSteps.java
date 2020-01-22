@@ -13,6 +13,7 @@ import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import ui.pages.FileViewer;
+import ui.pages.MarkdownEditor;
 import ui.pages.MarkdownViewer;
 
 /**
@@ -78,7 +79,8 @@ public class FileSteps {
 
 		Map<String, String> archiveMetadataMap = archiveMetadataTable.asMap(String.class, String.class);
 
-		markdownViewer.editFile(archiveMetadataMap.get("title"), archiveMetadataMap.get("author"),
+		MarkdownEditor markdownEditor = markdownViewer.edit();
+		markdownEditor.editContent(archiveMetadataMap.get("title"), archiveMetadataMap.get("author"),
 				archiveMetadataMap.get("description"), archiveMetadataMap.get("year"),
 				archiveMetadataMap.get("institute"));
 	}

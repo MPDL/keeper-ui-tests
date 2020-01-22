@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -47,6 +46,10 @@ public class MarkdownViewer extends BasePage {
 
 	@FindBy(className = "seafile-viewer-outline")
 	private WebElement outline;
+
+	@Lazy
+	@Autowired
+	MarkdownEditor markdownEditor;
 
 	@Autowired
 	public MarkdownViewer(WebDriver driver) {
@@ -95,59 +98,11 @@ public class MarkdownViewer extends BasePage {
 		return content;
 	}
 
-	public void editFile(String title, String author, String description, String year, String institute) {
+	public MarkdownEditor edit() {
 		this.editButton.click();
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("seafile-editor")));
 
-		// TODO: Extract to a new Page Class 'MarkdownEditorPage'
-		this.addTitle(title);
-		this.addAuthor(author);
-		this.addDescription(description);
-		this.addYear(year);
-		this.addInstitute(institute);
-		// TODO: Should: Publisher, Resource Type and License be edited?
-
-		WebElement saveButton = driver.findElement(By.id("saveButton"));
-		saveButton.click();
-
-		driver.navigate().refresh();
-		wait.until(ExpectedConditions.stalenessOf(saveButton));
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("editButton")));
-	}
-
-	public void addTitle(String title) {
-		this.addTextToOutline("Title", title);
-	}
-
-	public void addAuthor(String author) {
-		this.addTextToOutline("Author", author);
-	}
-
-	public void addDescription(String description) {
-		this.addTextToOutline("Description", description);
-	}
-
-	public void addYear(String year) {
-		this.addTextToOutline("Year", year);
-	}
-
-	public void addInstitute(String institute) {
-		this.addTextToOutline("Institute", institute);
-	}
-
-	public void addDOI(String doi) {
-		this.addTextToOutline("DOI", doi);
-	}
-
-	private void addTextToOutline(String outline, String outlineText) {
-		WebElement outlineElement = driver
-				.findElement(By.xpath("//div[@class='outline-h2' and text()='" + outline + "']"));
-		outlineElement.click();
-		WebElement outlineInput = driver.switchTo().activeElement();
-		outlineInput.sendKeys(Keys.END);
-		outlineInput.sendKeys(Keys.RETURN);
-		WebElement beneathOutlineInput = driver.switchTo().activeElement();
-		beneathOutlineInput.sendKeys(outlineText);
+		return markdownEditor;
 	}
 
 }
