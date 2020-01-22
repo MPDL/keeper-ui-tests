@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
@@ -40,7 +41,10 @@ public class TestConfiguration {
 
 		WebDriverManager.firefoxdriver().setup();
 
-		WebDriver driver = new FirefoxDriver();
+		FirefoxOptions firefoxOptions = new FirefoxOptions();
+		firefoxOptions.setHeadless(true);
+
+		WebDriver driver = new FirefoxDriver(firefoxOptions);
 
 		return driver;
 	}
