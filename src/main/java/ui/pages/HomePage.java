@@ -139,7 +139,8 @@ public class HomePage extends BasePage {
 		WebElement myLibrariesButton = sideNavigationDiv.findElement(By.xpath(".//a[@title='My Libraries']"));
 		myLibrariesButton.click();
 
-		// FIXME: How to wait correctly for "My Libraries" to finish loading?
+		// FIXME: How to wait for "My Libraries" to finish loading all libraries?
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-repos")));
 
 		return homePage;
 	}
