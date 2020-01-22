@@ -5,8 +5,8 @@ Feature: Lock Archive Metadata
   @createLibrary
   Scenario: Lock and unlock archive metadata
     Given Logged in as User
-    And Create new Library "New UI Test Library 3"
-    And Open Library "New UI Test Library 3"
+    And Create new Library "New UI Test Library 3.1"
+    And Open Library "New UI Test Library 3.1"
     When Lock archive-metadata.md file
     Then Lock symbole displayed for archive-metadata.md
     When Unlock archive-metadata.md file
@@ -16,8 +16,8 @@ Feature: Lock Archive Metadata
   @createLibrary
   Scenario: Owner can edit locked archive metadata
     Given Logged in as User
-    And Create new Library "New UI Test Library 3"
-    And Open Library "New UI Test Library 3"
+    And Create new Library "New UI Test Library 3.2"
+    And Open Library "New UI Test Library 3.2"
     When Lock archive-metadata.md file
     And Open Markdown element archive-metadata.md
     And Edit archive metadata:
@@ -37,8 +37,8 @@ Feature: Lock Archive Metadata
   @createLibrary
   Scenario: Owner can edit unlocked archive metadata
     Given Logged in as User
-    And Create new Library "New UI Test Library 3"
-    And Open Library "New UI Test Library 3"
+    And Create new Library "New UI Test Library 3.3"
+    And Open Library "New UI Test Library 3.3"
     And Lock archive-metadata.md file
     Then Unlock archive-metadata.md file
     And Open Markdown element archive-metadata.md
