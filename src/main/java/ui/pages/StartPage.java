@@ -4,10 +4,7 @@ import static io.cucumber.spring.CucumberTestContext.SCOPE_CUCUMBER_GLUE;
 
 import java.util.Properties;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -42,10 +39,6 @@ public class StartPage extends BasePage {
 
 	public StartPage navigateTo() {
 		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
-
-		wait.until(ExpectedConditions.elementToBeClickable(By.name("login")));
-		wait.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState")
-				.equals("complete"));
 
 		return startPage;
 	}

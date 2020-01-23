@@ -156,9 +156,7 @@ public class HomePage extends BasePage {
 		// TODO: Rework centralized access to the Keeper URLs
 		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-libs-more-op")));
-		wait.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState")
-				.equals("complete"));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-repos")));
 
 		return homePage;
 	}
