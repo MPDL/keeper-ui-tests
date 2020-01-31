@@ -62,6 +62,7 @@ public class LibrariesSteps {
 	public void libraryContains(String libraryName, List<String> fileNames) {
 		// FIXME: Replace sleep with a appropriate wait
 		// Wait implicitly until Cared-Data-Certificate gets added to the new library
+		// -> Maybe Use size of the library to check whether to wait before opening it
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {

@@ -125,7 +125,8 @@ public class HomePage extends BasePage {
 	}
 
 	public LibraryPage openLibrary(String libraryName) {
-		WebElement libraryLink = this.myLibrariesDiv.findElement(By.linkText(libraryName));
+		// Defensive wait
+		WebElement libraryLink = wait.until(driver -> this.myLibrariesDiv.findElement(By.linkText(libraryName)));
 		libraryLink.click();
 
 		wait.until(ExpectedConditions.elementToBeClickable(By.id("share-cur-dir")));
@@ -139,8 +140,8 @@ public class HomePage extends BasePage {
 		WebElement myLibrariesButton = sideNavigationDiv.findElement(By.xpath(".//a[@title='My Libraries']"));
 		myLibrariesButton.click();
 
-		// FIXME: How to wait for "My Libraries" to finish loading all libraries?
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-repos")));
+		wait.until(webDriver -> ((Long) (((JavascriptExecutor) webDriver).executeScript("return jQuery.active")) == 0));
 
 		return homePage;
 	}
@@ -156,7 +157,9 @@ public class HomePage extends BasePage {
 		// TODO: Rework centralized access to the Keeper URLs
 		driver.navigate().to(testDataProperties.getProperty("keeperUrl"));
 
+		// Waiting for the HomePage to load by waiting for My Libraries
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-repos")));
+		wait.until(webDriver -> ((Long) (((JavascriptExecutor) webDriver).executeScript("return jQuery.active")) == 0));
 
 		return homePage;
 	}
