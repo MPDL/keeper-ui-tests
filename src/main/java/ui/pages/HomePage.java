@@ -93,6 +93,8 @@ public class HomePage extends BasePage {
 		WebElement submit = newLibraryDialog.findElement(By.className("submit"));
 		submit.click();
 
+		wait.until(ExpectedConditions.stalenessOf(newLibraryDialog));
+
 		return homePage;
 	}
 
