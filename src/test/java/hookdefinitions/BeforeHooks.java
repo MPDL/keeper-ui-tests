@@ -14,14 +14,14 @@ import io.cucumber.java.Before;
 import ui.pages.StartPage;
 
 /**
- * Class containing all hooks which should be executed before the scenarios.
+ * Class containing all hooks which should be executed before each scenarios.
  * 
  * @author helk
  *
  */
-public class InitializationHooks {
+public class BeforeHooks {
 
-	private Logger logger = LoggerFactory.getLogger(InitializationHooks.class);
+	private Logger logger = LoggerFactory.getLogger(BeforeHooks.class);
 
 	@Autowired
 	@Qualifier("loadTestDataProperties")
@@ -35,7 +35,8 @@ public class InitializationHooks {
 	StartPage startPage;
 
 	// @Before(order = 1)
-	// -> Initialization of the WebDriver is done in TestConfiguration
+	// -> Initialization of the WebDriver is done in TestConfiguration via
+	// SCOPE_CUCUMBER_GLUE
 
 	@Before(order = 2)
 	public void openKeeperStartPage() {
