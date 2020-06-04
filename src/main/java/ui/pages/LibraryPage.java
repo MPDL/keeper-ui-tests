@@ -11,6 +11,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +33,10 @@ import ui.util.SeleniumUtil;
 @Scope(SCOPE_CUCUMBER_GLUE)
 public class LibraryPage extends BasePage {
 
-	@FindBy(id = "dir-view")
+	@FindBy(className = "cur-view-container")
 	private WebElement directoryViewDiv;
 
-	@FindBy(id = "advanced-upload")
+	@FindBy(xpath = "//button[@title='Upload']")
 	private WebElement uploadButton;
 
 	@Autowired
@@ -44,7 +45,7 @@ public class LibraryPage extends BasePage {
 	}
 
 	public List<String> readFileNames() {
-		List<WebElement> fileLinks = this.directoryViewDiv.findElements(By.xpath(".//*[@class='dirent-name']/a"));
+		List<WebElement> fileLinks = this.directoryViewDiv.findElements(By.xpath(".//a[contains(@href,'/lib/')]"));
 
 		List<String> fileNames = new ArrayList<>();
 		fileLinks.forEach(fileLink -> fileNames.add(fileLink.getText()));
@@ -58,7 +59,7 @@ public class LibraryPage extends BasePage {
 		SeleniumUtil.switchToSecondTab(driver, wait);
 
 		wait.until(ExpectedConditions.titleContains(elementName));
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("editButton")));
+		wait.until(ExpectedConditions.elementToBeClickable(By.id("parentDirectory")));
 		wait.until(webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState")
 				.equals("complete"));
 	}
@@ -67,45 +68,44 @@ public class LibraryPage extends BasePage {
 		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
 		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
 
-		WebElement moreOptions = elementRow.findElement(By.className("more-op-icon"));
+		new Actions(driver).moveToElement(elementRow).perform();
+		WebElement moreOptions = elementRow.findElement(By.xpath(".//*[@title='More Operations']"));
 		moreOptions.click();
-		WebElement lockFile = elementRow.findElement(By.className("lock-file"));
+		WebElement lockFile = elementRow.findElement(By.xpath(".//button[text()='Lock']"));
 		lockFile.click();
 
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("file-locked-icon")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("locked")));
 	}
 
 	public void unlockElement(String elementName) {
 		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
 		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
 
-		WebElement moreOptions = elementRow.findElement(By.className("more-op-icon"));
+		new Actions(driver).moveToElement(elementRow).perform();
+		WebElement moreOptions = elementRow.findElement(By.xpath(".//*[@title='More Operations']"));
 		// Selenium has problems hover/scroll element when clicking => Use JS to click
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", moreOptions);
-		WebElement unlockFile = elementRow.findElement(By.className("unlock-file"));
+		WebElement unlockFile = elementRow.findElement(By.xpath(".//button[text()='Unlock']"));
 		unlockFile.click();
 
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("file-locked-icon")));
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.className("locked")));
 	}
 
 	public boolean lockedIconVisible(String elementName) {
 		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
 		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
 
-		List<WebElement> lockIcon = elementRow.findElements(By.className("file-locked-icon"));
+		List<WebElement> lockIcon = elementRow.findElements(By.className("locked"));
 		return !lockIcon.isEmpty();
 	}
 
 	public void uploadFile(String fileName) {
-		// Check upload buttons are clickable:
+		// Check upload buttons are clickable (Only to verify the buttons work):
 		this.uploadButton.click();
-		WebElement uploadFilesButton = driver.findElement(By.className("advanced-upload-file"));
-		wait.until(ExpectedConditions.elementToBeClickable(uploadFilesButton));
-		// Click on 'Upload' again to hide the field again
-		this.uploadButton.click();
+		wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//li[text()='Upload Files']")));
 
 		// Upload done using the upload input element:
-		WebElement uploadInputElement = driver.findElement(By.id("advanced-upload-file-input"));
+		WebElement uploadInputElement = driver.findElement(By.className("upload-input"));
 		((JavascriptExecutor) driver).executeScript("arguments[0].style.visibility = 'visible';", uploadInputElement);
 
 		// FIXME: Move the extraction of the filepath to another class/method

@@ -3,7 +3,7 @@ Feature: Fill out Archive Metadata
   
   @KP-19
   @createLibrary
-  Scenario: Open archive metadata
+  Scenario: Update archive metadata
     Given Logged in as User
     And Create new Library "New UI Test Library 2"
     #TODO: Remove the explicte step Open new Library

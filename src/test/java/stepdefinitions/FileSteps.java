@@ -14,7 +14,6 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import ui.pages.FileViewer;
 import ui.pages.MarkdownEditor;
-import ui.pages.MarkdownViewer;
 
 /**
  * Tests steps: Files domain
@@ -29,7 +28,7 @@ public class FileSteps {
 
 	@Lazy
 	@Autowired
-	MarkdownViewer markdownViewer;
+	MarkdownEditor markdownEditor;
 
 	@Lazy
 	@Autowired
@@ -37,21 +36,21 @@ public class FileSteps {
 
 	@Then("Markdown file title {word} present")
 	public void markdownFileTitlePresent(String fileName) {
-		String fileTitle = markdownViewer.getFileName();
+		String fileTitle = markdownEditor.getFileName();
 
 		assertThat(fileTitle).isEqualTo(fileName);
 	}
 
 	@Then("Markdown-Viewer buttons present")
 	public void markdownViewerButtonsPresent() {
-		boolean buttonsPresent = markdownViewer.buttonsPresent();
+		boolean buttonsPresent = markdownEditor.buttonsPresent();
 
 		assertThat(buttonsPresent).as("Check presence of the Markdown-Viewer buttons.").isTrue();
 	}
 
 	@Then("Archive metadata content consists of:")
 	public void archiveMetadataContentConsistsOf(List<String> archiveMetadataContent) {
-		List<String> outline = markdownViewer.getOutline();
+		List<String> outline = markdownEditor.getOutline();
 
 		// TODO: Handle Check for modifierTime and modifierName correctly
 //		String modifierName = markdownViewer.getModifierName();
@@ -65,7 +64,7 @@ public class FileSteps {
 
 	@Then("Archive metadata contains:")
 	public void archiveMetadataContains(DataTable archiveMetadataTable) {
-		List<String> content = markdownViewer.getOutlineContent();
+		List<String> content = markdownEditor.getOutlineContent();
 
 		Map<String, String> archiveMetadataMap = archiveMetadataTable.asMap(String.class, String.class);
 
@@ -79,7 +78,6 @@ public class FileSteps {
 
 		Map<String, String> archiveMetadataMap = archiveMetadataTable.asMap(String.class, String.class);
 
-		MarkdownEditor markdownEditor = markdownViewer.edit();
 		markdownEditor.editContent(archiveMetadataMap.get("title"), archiveMetadataMap.get("author"),
 				archiveMetadataMap.get("description"), archiveMetadataMap.get("year"),
 				archiveMetadataMap.get("institute"));

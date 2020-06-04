@@ -55,5 +55,13 @@ Feature: Lock Archive Metadata
 		 | year 				| 2020 																													|
 		 | institute 		| Institute-Name; Department-Name; Director, Director-Lastname 	|
   
+  #Scenario: Owner can edit unlocked archive metadata
+#	1. Given	Authenticate as user
+#	2. And		Create library ""
+#	3. And		Lock file "" in library ""
+#	4. When	Unlock file "" in library ""
+#	5. And		Update file "" in library "" ||
+#	6. Then	File "" updated in library "" ||
+  
   #TODO: Further test case: other user (with edit rights) can not edit file while locked
   

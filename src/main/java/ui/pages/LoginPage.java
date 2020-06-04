@@ -47,7 +47,7 @@ public class LoginPage extends BasePage {
 		this.passwordInput.sendKeys(password);
 
 		this.loginButton.click();
-		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("my-libs-more-op")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("account")));
 
 		return homePage;
 	}

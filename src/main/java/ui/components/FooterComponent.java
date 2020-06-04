@@ -35,7 +35,7 @@ public class FooterComponent extends BasePage {
 	@FindBy(linkText = "About")
 	private WebElement aboutLink;
 
-	@FindBy(id = "footer-img")
+	@FindBy(xpath = "//*[@id='footer-header']/*[contains(@class,'keeper-icon-triangle-up')]")
 	private WebElement footerFoldOutElement;
 
 	@FindBy(linkText = "About Keeper")
@@ -50,11 +50,11 @@ public class FooterComponent extends BasePage {
 	@FindBy(linkText = "Download the Keeper client for Windows, Linux, Mac, Android and iPhone")
 	private WebElement downloadClientLink;
 
-	@FindBy(id = "seafile-logo")
-	private WebElement seafileLogo;
+	@FindBy(xpath = "//img[@id='seafile-logo']/parent::a")
+	private WebElement seafileLink;
 
-	@FindBy(id = "MPDL-logo")
-	private WebElement mpdlLogo;
+	@FindBy(xpath = "//img[@id='MPDL-logo']/parent::a")
+	private WebElement mpdlLink;
 
 	@FindBy(linkText = "Contact Keeper Support")
 	private WebElement contactKeeperSupportLink;
@@ -87,7 +87,7 @@ public class FooterComponent extends BasePage {
 	public void openAboutDialog() {
 		this.aboutLink.click();
 
-		wait.until(ExpectedConditions.elementToBeClickable(By.id("simplemodal-container")));
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@class='modal-dialog']")));
 	}
 
 	public void openAboutKeeper() {
@@ -129,19 +129,17 @@ public class FooterComponent extends BasePage {
 
 	public String getSeafileLink() {
 		this.footerFoldOutElement.click();
-		wait.until(ExpectedConditions.elementToBeClickable(this.seafileLogo));
-		String onclick = this.seafileLogo.getAttribute("onclick");
+		wait.until(ExpectedConditions.elementToBeClickable(this.seafileLink));
 
-		String seafileLink = onclick.replace("window.open('", "").replace("');", "");
+		String seafileLink = this.seafileLink.getAttribute("href");
 		return seafileLink;
 	}
 
 	public String getMpdlLink() {
 		this.footerFoldOutElement.click();
-		wait.until(ExpectedConditions.elementToBeClickable(this.mpdlLogo));
-		String onclick = this.mpdlLogo.getAttribute("onclick");
+		wait.until(ExpectedConditions.elementToBeClickable(this.mpdlLink));
 
-		String mpdlLink = onclick.replace("window.open('", "").replace("');", "");
+		String mpdlLink = this.mpdlLink.getAttribute("href");
 		return mpdlLink;
 	}
 

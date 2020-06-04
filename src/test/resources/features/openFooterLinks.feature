@@ -38,7 +38,7 @@ Feature: Open footer links
 	@KP-13
 	Scenario: Check Seafile link
 	Given Logged in as User
-	Then Seafile link is https://www.seafile.com/en/home/
+	Then Seafile link is https://seafile.com/en/home/
 	
 	@KP-7
 	Scenario: Check MPDL link
