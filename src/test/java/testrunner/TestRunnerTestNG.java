@@ -12,7 +12,7 @@ import io.cucumber.testng.CucumberOptions;
  *
  */
 @CucumberOptions(plugin = "pretty", glue = { "stepdefinitions",
-		"hookdefinitions" }, features = "src/test/resources/features")
+		"hookdefinitions", "testconfiguration" }, features = "src/test/resources/features")
 public class TestRunnerTestNG extends AbstractTestNGCucumberTests {
 
 	@Override

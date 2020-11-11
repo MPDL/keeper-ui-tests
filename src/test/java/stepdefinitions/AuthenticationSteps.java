@@ -7,13 +7,11 @@ import java.util.Properties;
 import org.openqa.selenium.WebDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Lazy;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import testconfiguration.TestConfiguration;
 import ui.pages.HomePage;
 import ui.pages.LoginPage;
 
@@ -23,7 +21,6 @@ import ui.pages.LoginPage;
  * @author helk
  *
  */
-@SpringBootTest(classes = TestConfiguration.class)
 public class AuthenticationSteps {
 
 	@Autowired
