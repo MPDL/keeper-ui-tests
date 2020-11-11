@@ -21,7 +21,7 @@ import org.springframework.stereotype.Component;
 @Scope(SCOPE_CUCUMBER_GLUE)
 public class FileViewer extends BasePage {
 
-	@FindBy(xpath = "//*[@id='shared-file-view-hd']//h2")
+	@FindBy(xpath = "//*[@class='shared-file-view-head']//h2")
 	private WebElement fileTitle;
 
 	@Autowired
