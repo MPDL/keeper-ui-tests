@@ -81,9 +81,10 @@ public class LibraryPage extends BasePage {
 		WebElement elementLink = this.directoryViewDiv.findElement(By.linkText(elementName));
 		WebElement elementRow = elementLink.findElement(By.xpath(".//ancestor::tr"));
 
-		new Actions(driver).moveToElement(elementRow).perform();
+		// Selenium sometimes has problems hovering over elements => Use an additional click
+		new Actions(driver).moveToElement(elementRow).click().perform();
 		WebElement moreOptions = elementRow.findElement(By.xpath(".//*[@title='More Operations']"));
-		// Selenium has problems hover/scroll element when clicking => Use JS to click
+		// Selenium sometimes has problems hover/scroll element when clicking => Use JS to click
 		((JavascriptExecutor) driver).executeScript("arguments[0].click();", moreOptions);
 		WebElement unlockFile = elementRow.findElement(By.xpath(".//button[text()='Unlock']"));
 		unlockFile.click();

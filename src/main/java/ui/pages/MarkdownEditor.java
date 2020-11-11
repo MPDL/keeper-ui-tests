@@ -148,7 +148,10 @@ public class MarkdownEditor extends BasePage {
 				.findElement(By.xpath("//div[contains(@class,'outline-h2') and text()='" + outline + "']"));
 		outlineElement.click();
 		WebElement outlineInput = driver.switchTo().activeElement();
-		outlineInput.sendKeys(Keys.END);
+		//Keys.END does not work anymore. Reason unknown.
+//		outlineInput.sendKeys(Keys.END);
+		//Workaround: Go to the end of the line with the RIGHT key!
+		outline.chars().forEach(i -> outlineInput.sendKeys(Keys.RIGHT));
 		outlineInput.sendKeys(Keys.RETURN);
 		WebElement beneathOutlineInput = driver.switchTo().activeElement();
 
