@@ -52,7 +52,7 @@ public class ContentInformationSteps {
 
 	@Then("Project Catalog Page is opened")
 	public void projectCatalogPageIsOpened() {
-		assertThat(catalogPage.getTitle()).isEqualTo("Catalog - KEEPER");
+		assertThat(catalogPage.getTitle()).isEqualTo("Project Catalog - KEEPER");
 	}
 
 	@When("Open Help page")
